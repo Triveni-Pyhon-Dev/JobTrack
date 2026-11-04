@@ -1,0 +1,443 @@
+
+body {
+    background-color: #f4f6fb;
+    font-family: Arial, sans-serif;
+}
+
+.dashboard-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+    min-height: 120px;
+}
+
+.dashboard-card h2 {
+    font-weight: bold;
+    color: #2457d6;
+}
+
+.card {
+    border: none;
+    border-radius: 12px;
+}
+
+/* JobTrack form styling */
+.form-control,
+.form-select {
+    border: 1px solid #dce3ef;
+    border-radius: 8px;
+    padding: 10px 12px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #3974dc;
+    box-shadow: 0 0 0 3px rgba(57, 116, 220, 0.12);
+}
+
+.btn {
+    border-radius: 8px;
+    padding: 9px 16px;
+}
+
+.card {
+    border-radius: 14px;
+    box-shadow: 0 3px 14px rgba(25, 45, 80, 0.06);
+}
+
+.table thead th {
+    color: #52627a;
+    white-space: nowrap;
+}
+
+.table td {
+    white-space: nowrap;
+}
+
+canvas {
+    max-height: 320px;
+}
+
+
+/* ==================================
+   JOBTRACK - PROFESSIONAL UI
+================================== */
+
+body {
+    background: #f4f6fb;
+    font-family: Arial, sans-serif;
+    color: #26354d;
+}
+
+.page-heading {
+    font-size: 28px;
+    font-weight: 700;
+    color: #172b4d;
+}
+
+.section-heading {
+    font-size: 20px;
+    font-weight: 700;
+    color: #172b4d;
+}
+
+.back-link {
+    color: #3974dc;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+/* Cards */
+
+.card {
+    border: none;
+    border-radius: 14px;
+    box-shadow: 0 3px 14px rgba(25, 45, 80, 0.06);
+}
+
+.dashboard-card {
+    min-height: 140px;
+}
+
+.dashboard-card .card-body {
+    padding: 22px;
+}
+
+.summary-label {
+    color: #65748b;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.dashboard-card h2 {
+    color: #2457d6;
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+/* Buttons */
+
+.btn {
+    border-radius: 8px;
+    padding: 9px 16px;
+    font-weight: 500;
+}
+
+.btn-primary {
+    background-color: #3974dc;
+    border-color: #3974dc;
+}
+
+.btn-primary:hover {
+    background-color: #2457bd;
+    border-color: #2457bd;
+}
+
+/* Form page */
+
+.form-page {
+    max-width: 950px;
+    margin: 0 auto;
+}
+
+.job-form-card {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 3px 14px rgba(25, 45, 80, 0.06);
+}
+
+.form-section {
+    border: 1px solid #e2e8f2;
+    border-radius: 11px;
+    padding: 22px;
+    margin-bottom: 25px;
+    min-width: 0;
+}
+
+.form-section legend {
+    float: none;
+    width: auto;
+    padding: 0 10px;
+    margin-left: -5px;
+    font-size: 17px;
+    font-weight: 700;
+    color: #172b4d;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.form-field {
+    min-width: 0;
+}
+
+.form-field label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #34445d;
+    margin-bottom: 8px;
+}
+
+.form-field label span {
+    color: #dc5555;
+}
+
+.form-control,
+.form-select {
+    width: 100%;
+    min-height: 44px;
+    border: 1px solid #dce3ef;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+    box-shadow: none;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #3974dc;
+    box-shadow: 0 0 0 3px rgba(57, 116, 220, 0.12);
+}
+
+textarea.form-control {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+/* Login and registration */
+
+.auth-wrapper {
+    min-height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px 12px;
+}
+
+.auth-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 460px;
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0 5px 22px rgba(25, 45, 80, 0.08);
+}
+
+.auth-card h2 {
+    color: #172b4d;
+}
+
+.auth-card a {
+    color: #3974dc;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Analytics */
+
+.chart-card {
+    background: #ffffff;
+    padding: 25px;
+}
+
+.chart-card h5 {
+    font-size: 17px;
+    font-weight: 700;
+    color: #172b4d;
+    margin-bottom: 7px;
+}
+
+.chart-container {
+    height: 310px;
+    width: 100%;
+    position: relative;
+}
+
+.doughnut-container {
+    height: 310px;
+    max-width: 430px;
+    margin: 0 auto;
+}
+
+.monthly-container {
+    height: 300px;
+}
+
+.chart-empty {
+    min-height: 240px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: #f7f9fd;
+    border: 1px dashed #cbd6e8;
+    border-radius: 10px;
+    padding: 25px;
+}
+
+.chart-empty h6 {
+    font-weight: 700;
+    color: #34445d;
+}
+
+.chart-empty p {
+    font-size: 13px;
+    color: #718096;
+}
+
+/* Search and filters */
+
+.filter-panel {
+    display: grid;
+    grid-template-columns: 2fr 1.3fr auto;
+    gap: 15px;
+    align-items: end;
+    padding: 18px;
+    background: #f7f9fd;
+    border-radius: 10px;
+}
+
+.filter-panel label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 7px;
+    color: #34445d;
+}
+
+.filter-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* Table */
+
+.job-table {
+    min-width: 850px;
+}
+
+.job-table thead th {
+    background: #f5f7fb;
+    color: #52627a;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    padding: 14px;
+}
+
+.job-table td {
+    padding: 14px;
+    font-size: 13px;
+    color: #40516a;
+    white-space: nowrap;
+}
+
+.job-table tbody tr:hover {
+    background: #f8faff;
+}
+
+/* Status labels */
+
+.status-pill {
+    display: inline-block;
+    padding: 6px 11px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-interested {
+    background: #e9efff;
+    color: #4568b5;
+}
+
+.status-applied {
+    background: #e4edff;
+    color: #2457bd;
+}
+
+.status-interview {
+    background: #fff4dc;
+    color: #946b13;
+}
+
+.status-selected {
+    background: #e2f5eb;
+    color: #278050;
+}
+
+.status-rejected {
+    background: #fde8e8;
+    color: #bd4444;
+}
+
+/* Mobile responsiveness */
+
+@media (max-width: 768px) {
+
+    .page-heading {
+        font-size: 23px;
+    }
+
+    .job-form-card {
+        padding: 18px;
+    }
+
+    .form-section {
+        padding: 16px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .full-width {
+        grid-column: auto;
+    }
+
+    .filter-panel {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-actions {
+        flex-wrap: wrap;
+    }
+
+    .auth-card {
+        padding: 24px;
+    }
+
+    .chart-card {
+        padding: 18px;
+    }
+
+    .chart-container {
+        height: 270px;
+    }
+
+    .form-actions {
+        flex-wrap: wrap;
+    }
+}

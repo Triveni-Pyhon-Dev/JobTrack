@@ -1,0 +1,1036 @@
+{% extends 'jobs/base.html' %}
+
+{% block content %}
+
+<style>
+    .dashboard-heading {
+        margin-bottom: 25px;
+    }
+
+    .dashboard-heading h2 {
+        color: #172b4d;
+        font-weight: 700;
+    }
+
+    .dashboard-heading p {
+        color: #718096;
+        margin-bottom: 0;
+    }
+
+    .summary-card {
+        background: #ffffff;
+        padding: 22px;
+        border-radius: 14px;
+        box-shadow: 0 4px 15px rgba(23, 43, 77, 0.07);
+        border: 1px solid #edf1f7;
+        height: 100%;
+    }
+
+    .summary-card h6 {
+        color: #718096;
+        font-size: 14px;
+        margin-bottom: 12px;
+    }
+
+    .summary-card h3 {
+        color: #172b4d;
+        font-size: 30px;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .dashboard-section {
+        margin-top: 30px;
+    }
+
+    .section-heading {
+        color: #172b4d;
+        font-weight: 700;
+        margin-bottom: 18px;
+    }
+
+    .chart-card {
+        background: #ffffff;
+        border-radius: 14px;
+        padding: 22px;
+        box-shadow: 0 4px 15px rgba(23, 43, 77, 0.07);
+        border: 1px solid #edf1f7;
+        height: 100%;
+    }
+
+    .chart-card h5 {
+        color: #172b4d;
+        font-weight: 700;
+        margin-bottom: 7px;
+    }
+
+    .chart-subtitle {
+        color: #718096;
+        font-size: 13px;
+        margin-bottom: 20px;
+    }
+
+    .chart-container {
+        position: relative;
+        width: 100%;
+        height: 350px;
+    }
+
+    .doughnut-container {
+        position: relative;
+        width: 100%;
+        height: 300px;
+    }
+
+    .monthly-container {
+        position: relative;
+        width: 100%;
+        height: 350px;
+    }
+
+    .chart-explanation {
+        margin-top: 18px;
+        padding: 14px;
+        background: #f4f7fc;
+        border-radius: 9px;
+        border-left: 4px solid #3974dc;
+    }
+
+    .chart-explanation strong {
+        color: #172b4d;
+        font-size: 13px;
+    }
+
+    .chart-explanation p {
+        margin: 6px 0 0;
+        color: #65748b;
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    .chart-legend-list {
+        margin-top: 15px;
+    }
+
+    .chart-legend-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 9px 3px;
+        border-bottom: 1px solid #edf1f7;
+        font-size: 13px;
+    }
+
+    .legend-name {
+        color: #40516b;
+    }
+
+    .legend-value {
+        color: #172b4d;
+        font-weight: 700;
+    }
+
+    .legend-dot {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-right: 8px;
+    }
+
+    .filter-panel {
+        background: #ffffff;
+        padding: 18px;
+        border-radius: 14px;
+        border: 1px solid #edf1f7;
+        box-shadow: 0 4px 15px rgba(23, 43, 77, 0.05);
+    }
+
+    .jobs-table-card {
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 14px;
+        border: 1px solid #edf1f7;
+        box-shadow: 0 4px 15px rgba(23, 43, 77, 0.05);
+    }
+
+    .jobs-table-card table th {
+        color: #52627a;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    .jobs-table-card table td {
+        color: #40516b;
+        vertical-align: middle;
+        font-size: 14px;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 35px 15px;
+        color: #718096;
+    }
+
+    .empty-state h5 {
+        color: #172b4d;
+        font-weight: 700;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 6px 11px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        background: #edf2f7;
+        color: #40516b;
+    }
+
+    .status-interested {
+        background: #e8edff;
+        color: #526ac7;
+    }
+
+    .status-applied {
+        background: #e5f0ff;
+        color: #2870c9;
+    }
+
+    .status-interview {
+        background: #fff3d9;
+        color: #a87916;
+    }
+
+    .status-selected {
+        background: #e1f5eb;
+        color: #238455;
+    }
+
+    .status-rejected {
+        background: #ffe8e8;
+        color: #c34c4c;
+    }
+
+    @media (max-width: 768px) {
+        .chart-container,
+        .monthly-container {
+            height: 310px;
+        }
+
+        .doughnut-container {
+            height: 270px;
+        }
+    }
+</style>
+
+<div class="container-fluid">
+
+    <!-- DASHBOARD HEADING -->
+    <div class="dashboard-heading">
+        <h2>Welcome to JobTrack!</h2>
+        <p>Manage your job opportunities and track your career progress.</p>
+    </div>
+
+    <!-- SUMMARY CARDS -->
+    <div class="row g-3">
+
+        <div class="col-6 col-lg-3">
+            <div class="summary-card">
+                <h6>Total Jobs</h6>
+                <h3>{{ total_jobs }}</h3>
+            </div>
+        </div>
+
+        <div class="col-6 col-lg-3">
+            <div class="summary-card">
+                <h6>Applied</h6>
+                <h3>{{ applied_count }}</h3>
+            </div>
+        </div>
+
+        <div class="col-6 col-lg-3">
+            <div class="summary-card">
+                <h6>Interviews</h6>
+                <h3>{{ interview_count }}</h3>
+            </div>
+        </div>
+
+        <div class="col-6 col-lg-3">
+            <div class="summary-card">
+                <h6>Selected</h6>
+                <h3>{{ selected_count }}</h3>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ANALYTICS HEADING -->
+    <div class="dashboard-section d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <h4 class="section-heading mb-0">Application Analytics</h4>
+
+        <a href="{% url 'add_job' %}" class="btn btn-primary">
+            + Add New Job
+        </a>
+    </div>
+
+    <!-- FIRST ROW OF GRAPHS -->
+    <div class="row g-4 dashboard-section">
+
+        <!-- VERTICAL STATUS GRAPH -->
+        <div class="col-lg-7">
+            <div class="chart-card">
+
+                <h5>Application Status Overview</h5>
+
+                <p class="chart-subtitle">
+                    Compare the number of jobs in each application stage.
+                </p>
+
+                {% if total_jobs > 0 %}
+                    <div class="chart-container">
+                        <canvas id="statusChart"></canvas>
+                    </div>
+                {% else %}
+                    <div class="empty-state">
+                        <h5>No application data available</h5>
+                        <p>Add job opportunities to see your status graph.</p>
+                    </div>
+                {% endif %}
+
+                <div class="chart-explanation">
+                    <strong>How to read this graph</strong>
+                    <p>
+                        The X-axis shows application statuses.
+                        The Y-axis shows the number of jobs.
+                        Each vertical column represents one status.
+                        The number above each column shows its exact count.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- DOUGHNUT GRAPH -->
+        <div class="col-lg-5">
+            <div class="chart-card">
+
+                <h5>Application Distribution</h5>
+
+                <p class="chart-subtitle">
+                    Percentage of jobs in each application stage.
+                </p>
+
+                {% if total_jobs > 0 %}
+                    <div class="doughnut-container">
+                        <canvas id="distributionChart"></canvas>
+                    </div>
+
+                    <div id="distributionLegend" class="chart-legend-list"></div>
+                {% else %}
+                    <div class="empty-state">
+                        <h5>No data to display</h5>
+                        <p>Your application distribution will appear here after adding jobs.</p>
+                    </div>
+                {% endif %}
+
+                <div class="chart-explanation">
+                    <strong>How to read this graph</strong>
+                    <p>
+                        Each coloured section represents a job status.
+                        The percentage shows how much that status contributes
+                        to your total saved opportunities.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MONTHLY PROGRESS GRAPH -->
+    <div class="dashboard-section">
+
+        <div class="chart-card">
+
+            <h5>Monthly Job Tracking Progress</h5>
+
+            <p class="chart-subtitle">
+                Track how many job opportunities you added each month.
+            </p>
+
+            {% if total_jobs > 0 %}
+                <div class="monthly-container">
+                    <canvas id="monthlyChart"></canvas>
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <h5>No monthly progress yet</h5>
+                    <p>Add your first job opportunity to start tracking your progress.</p>
+                </div>
+            {% endif %}
+
+            <div class="chart-explanation">
+                <strong>How to read this graph</strong>
+                <p>
+                    The X-axis shows the month and year.
+                    The Y-axis shows the number of jobs added.
+                    The number above each column shows how many jobs
+                    you added during that month.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- JOB APPLICATION TABLE -->
+    <div class="dashboard-section">
+
+        <h4 class="section-heading">My Job Applications</h4>
+
+        <!-- SEARCH AND FILTER -->
+        <div class="filter-panel mb-4">
+
+            <form method="GET" class="row g-3 align-items-end">
+
+                <div class="col-md-6">
+                    <label class="form-label">Search Company or Job Role</label>
+
+                    <input
+                        type="text"
+                        name="search"
+                        class="form-control"
+                        placeholder="Search here..."
+                        value="{{ search }}"
+                    >
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Filter by Status</label>
+
+                    <select name="status" class="form-select">
+                        <option value="">All Statuses</option>
+
+                        <option value="Interested"
+                            {% if selected_status == 'Interested' %}selected{% endif %}>
+                            Interested
+                        </option>
+
+                        <option value="Applied"
+                            {% if selected_status == 'Applied' %}selected{% endif %}>
+                            Applied
+                        </option>
+
+                        <option value="Interview"
+                            {% if selected_status == 'Interview' %}selected{% endif %}>
+                            Interview
+                        </option>
+
+                        <option value="Selected"
+                            {% if selected_status == 'Selected' %}selected{% endif %}>
+                            Selected
+                        </option>
+
+                        <option value="Rejected"
+                            {% if selected_status == 'Rejected' %}selected{% endif %}>
+                            Rejected
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-md-2 d-grid">
+                    <button type="submit" class="btn btn-primary">
+                        Search
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+        <!-- JOB TABLE -->
+        <div class="jobs-table-card">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead>
+                        <tr>
+                            <th>Company</th>
+                            <th>Job Role</th>
+                            <th>Location</th>
+                            <th>Salary</th>
+                            <th>Status</th>
+                            <th>Date Added</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for job in jobs %}
+
+                            <tr>
+
+                                <td>
+                                    <strong>{{ job.company_name }}</strong>
+                                </td>
+
+                                <td>{{ job.job_role }}</td>
+
+                                <td>{{ job.location }}</td>
+
+                                <td>
+                                    {% if job.salary %}
+                                        {{ job.salary }}
+                                    {% else %}
+                                        Not specified
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    <span class="status-badge
+                                        {% if job.status == 'Interested' %}status-interested
+                                        {% elif job.status == 'Applied' %}status-applied
+                                        {% elif job.status == 'Interview' %}status-interview
+                                        {% elif job.status == 'Selected' %}status-selected
+                                        {% elif job.status == 'Rejected' %}status-rejected
+                                        {% endif %}">
+                                        {{ job.status }}
+                                    </span>
+                                </td>
+
+                                <td>{{ job.date_added|date:"d M Y" }}</td>
+
+                                <td>
+                                    <div class="d-flex gap-2">
+
+                                        <a
+                                            href="{% url 'edit_job' job.id %}"
+                                            class="btn btn-sm btn-outline-primary">
+                                            Edit
+                                        </a>
+
+                                        <form
+                                            method="POST"
+                                            action="{% url 'delete_job' job.id %}"
+                                            onsubmit="return confirm('Are you sure you want to delete this job?');">
+
+                                            {% csrf_token %}
+
+                                            <button
+                                                type="submit"
+                                                class="btn btn-sm btn-outline-danger">
+                                                Delete
+                                            </button>
+
+                                        </form>
+
+                                    </div>
+                                </td>
+
+                            </tr>
+
+                        {% empty %}
+
+                            <tr>
+                                <td colspan="7">
+
+                                    <div class="empty-state">
+                                        <h5>No job applications found</h5>
+                                        <p>
+                                            Add a new job opportunity or change your search filters.
+                                        </p>
+
+                                        <a href="{% url 'add_job' %}" class="btn btn-primary">
+                                            Add Your First Job
+                                        </a>
+                                    </div>
+
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    // GET ACTUAL DATA FROM DJANGO
+
+    const statusLabels = {{ status_labels|safe }};
+    const statusValues = {{ status_values|safe }};
+
+    const monthLabels = {{ month_labels|safe }};
+    const monthValues = {{ month_values|safe }};
+
+    const chartColors = [
+        "#8BA8E8",
+        "#3974DC",
+        "#E6B75B",
+        "#45A67A",
+        "#DF7777"
+    ];
+
+    const totalJobs = statusValues.reduce(
+        (total, value) => total + value,
+        0
+    );
+
+    Chart.register(ChartDataLabels);
+
+
+    // 1. VERTICAL APPLICATION STATUS GRAPH
+
+    const statusCanvas = document.getElementById("statusChart");
+
+    if (statusCanvas) {
+
+        new Chart(statusCanvas, {
+
+            type: "bar",
+
+            data: {
+
+                labels: statusLabels,
+
+                datasets: [{
+
+                    label: "Number of Jobs",
+
+                    data: statusValues,
+
+                    backgroundColor: chartColors,
+
+                    borderRadius: 7,
+
+                    barThickness: 38,
+
+                    maxBarThickness: 48
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                layout: {
+                    padding: {
+                        top: 25
+                    }
+                },
+
+                plugins: {
+
+                    legend: {
+                        display: false
+                    },
+
+                    datalabels: {
+
+                        anchor: "end",
+
+                        align: "top",
+
+                        color: "#172b4d",
+
+                        font: {
+                            weight: "bold",
+                            size: 13
+                        },
+
+                        formatter: function (value) {
+                            return value;
+                        }
+
+                    },
+
+                    tooltip: {
+
+                        callbacks: {
+
+                            label: function (context) {
+                                return context.parsed.y + " jobs";
+                            }
+
+                        }
+
+                    }
+
+                },
+
+                scales: {
+
+                    x: {
+
+                        title: {
+                            display: true,
+                            text: "Application Status",
+                            color: "#172b4d",
+                            font: {
+                                weight: "bold",
+                                size: 13
+                            },
+                            padding: 12
+                        },
+
+                        grid: {
+                            display: false
+                        },
+
+                        ticks: {
+                            color: "#40516b",
+                            font: {
+                                size: 11
+                            }
+                        }
+
+                    },
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        suggestedMax: Math.max(...statusValues, 1) + 1,
+
+                        title: {
+                            display: true,
+                            text: "Number of Jobs",
+                            color: "#172b4d",
+                            font: {
+                                weight: "bold",
+                                size: 13
+                            },
+                            padding: 12
+                        },
+
+                        ticks: {
+                            precision: 0,
+                            stepSize: 1
+                        },
+
+                        grid: {
+                            color: "#E8EDF5"
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
+
+    // 2. APPLICATION DISTRIBUTION DOUGHNUT GRAPH
+
+    const distributionCanvas = document.getElementById("distributionChart");
+
+    if (distributionCanvas) {
+
+        new Chart(distributionCanvas, {
+
+            type: "doughnut",
+
+            data: {
+
+                labels: statusLabels,
+
+                datasets: [{
+
+                    data: statusValues,
+
+                    backgroundColor: chartColors,
+
+                    borderWidth: 3,
+
+                    borderColor: "#ffffff",
+
+                    hoverOffset: 8
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                cutout: "62%",
+
+                plugins: {
+
+                    legend: {
+                        display: false
+                    },
+
+                    datalabels: {
+
+                        color: "#ffffff",
+
+                        font: {
+                            weight: "bold",
+                            size: 12
+                        },
+
+                        formatter: function (value) {
+
+                            if (value === 0 || totalJobs === 0) {
+                                return "";
+                            }
+
+                            return Math.round((value / totalJobs) * 100) + "%";
+
+                        }
+
+                    },
+
+                    tooltip: {
+
+                        callbacks: {
+
+                            label: function (context) {
+
+                                const value = context.parsed;
+
+                                const percentage = totalJobs > 0
+                                    ? ((value / totalJobs) * 100).toFixed(1)
+                                    : 0;
+
+                                return context.label + ": " +
+                                    value + " jobs (" + percentage + "%)";
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+
+        // DOUGHNUT CHART LEGEND
+
+        const legendContainer = document.getElementById("distributionLegend");
+
+        if (legendContainer) {
+
+            statusLabels.forEach(function (label, index) {
+
+                const value = statusValues[index];
+
+                const percentage = totalJobs > 0
+                    ? ((value / totalJobs) * 100).toFixed(1)
+                    : 0;
+
+                const item = document.createElement("div");
+
+                item.className = "chart-legend-item";
+
+                const name = document.createElement("span");
+                name.className = "legend-name";
+
+                const dot = document.createElement("span");
+                dot.className = "legend-dot";
+                dot.style.backgroundColor = chartColors[index];
+
+                name.appendChild(dot);
+                name.appendChild(document.createTextNode(label));
+
+                const amount = document.createElement("span");
+                amount.className = "legend-value";
+                amount.textContent = value + " jobs (" + percentage + "%)";
+
+                item.appendChild(name);
+                item.appendChild(amount);
+
+                legendContainer.appendChild(item);
+
+            });
+
+        }
+
+    }
+
+
+    // 3. VERTICAL MONTHLY PROGRESS GRAPH
+
+    const monthlyCanvas = document.getElementById("monthlyChart");
+
+    if (monthlyCanvas) {
+
+        new Chart(monthlyCanvas, {
+
+            type: "bar",
+
+            data: {
+
+                labels: monthLabels,
+
+                datasets: [{
+
+                    label: "Jobs Added",
+
+                    data: monthValues,
+
+                    backgroundColor: "#3974DC",
+
+                    borderRadius: 7,
+
+                    barThickness: 35,
+
+                    maxBarThickness: 45
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                layout: {
+                    padding: {
+                        top: 25
+                    }
+                },
+
+                plugins: {
+
+                    legend: {
+                        display: true,
+                        position: "top"
+                    },
+
+                    datalabels: {
+
+                        anchor: "end",
+
+                        align: "top",
+
+                        color: "#172b4d",
+
+                        font: {
+                            weight: "bold",
+                            size: 12
+                        },
+
+                        formatter: function (value) {
+                            return value;
+                        }
+
+                    },
+
+                    tooltip: {
+
+                        callbacks: {
+
+                            label: function (context) {
+                                return context.parsed.y + " jobs added";
+                            }
+
+                        }
+
+                    }
+
+                },
+
+                scales: {
+
+                    x: {
+
+                        title: {
+                            display: true,
+                            text: "Month",
+                            color: "#172b4d",
+                            font: {
+                                weight: "bold",
+                                size: 13
+                            },
+                            padding: 12
+                        },
+
+                        grid: {
+                            display: false
+                        }
+
+                    },
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        suggestedMax: Math.max(...monthValues, 1) + 1,
+
+                        title: {
+                            display: true,
+                            text: "Number of Jobs Added",
+                            color: "#172b4d",
+                            font: {
+                                weight: "bold",
+                                size: 13
+                            },
+                            padding: 12
+                        },
+
+                        ticks: {
+                            precision: 0,
+                            stepSize: 1
+                        },
+
+                        grid: {
+                            color: "#E8EDF5"
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
+});
+
+</script>
+
+{% endblock %}

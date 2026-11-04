@@ -1,0 +1,58 @@
+
+{% extends 'jobs/base.html' %}
+
+{% block title %}Login | JobTrack{% endblock %}
+
+{% block content %}
+
+<div class="auth-wrapper">
+
+    <div class="auth-card">
+
+        <div class="text-center mb-4">
+            <h2 class="fw-bold">Welcome Back!</h2>
+            <p class="text-muted">
+                Login to continue managing your job applications.
+            </p>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    Invalid email address or password.
+                </div>
+            {% endif %}
+
+            <div class="form-field mb-3">
+                <label for="{{ form.username.id_for_label }}">
+                    Email ID
+                </label>
+                {{ form.username }}
+                {{ form.username.errors }}
+            </div>
+
+            <div class="form-field mb-4">
+                <label for="{{ form.password.id_for_label }}">
+                    Password
+                </label>
+                {{ form.password }}
+                {{ form.password.errors }}
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">
+                Login
+            </button>
+        </form>
+
+        <p class="text-center mt-4 mb-0">
+            Don't have an account?
+            <a href="{% url 'register' %}">Create an account</a>
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}
